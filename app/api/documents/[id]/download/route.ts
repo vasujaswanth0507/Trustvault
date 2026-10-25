@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireDocumentDownloadAccess, AuthorizationError } from "@/lib/auth/authorization";
-import { storage } from "@/lib/storage";
-import { logAuditEvent } from "@/lib/audit/audit-service";
+import { requireDocumentDownloadAccess, AuthorizationError } from "../../../../../lib/auth/authorization";
+import { storage } from "../../../../../lib/storage";
+import { logAuditEvent } from "../../../../../lib/audit/audit-service";
 
 interface RouteParams {
   params: { id: string };

@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db/prisma";
-import { generateSessionToken } from "@/lib/crypto/hash";
+import { prisma } from "../db/prisma";
+import { generateSessionToken } from "../crypto/hash";
 import { User } from "@prisma/client";
 
 export const SESSION_COOKIE_NAME = "trustvault_session";

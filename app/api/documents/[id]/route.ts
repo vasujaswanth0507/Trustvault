@@ -5,10 +5,10 @@ import {
   requireDocumentEditAccess,
   requireDocumentOwner,
   AuthorizationError,
-} from "@/lib/auth/authorization";
-import { prisma } from "@/lib/db/prisma";
-import { logAuditEvent } from "@/lib/audit/audit-service";
-import { storage } from "@/lib/storage";
+} from "../../../../lib/auth/authorization";
+import { prisma } from "../../../../lib/db/prisma";
+import { logAuditEvent } from "../../../../lib/audit/audit-service";
+import { storage } from "../../../../lib/storage";
 
 const updateDocumentSchema = z.object({
   title: z.string().min(2).max(200).optional(),

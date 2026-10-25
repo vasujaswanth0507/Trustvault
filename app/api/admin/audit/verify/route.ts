@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdministrator, AuthorizationError } from "@/lib/auth/authorization";
-import { verifyAuditChain } from "@/lib/audit/audit-service";
+import { requireAdministrator, AuthorizationError } from "../../../../../lib/auth/authorization";
+import { verifyAuditChain } from "../../../../../lib/audit/audit-service";
 
 export async function GET(req: NextRequest) {
   try {

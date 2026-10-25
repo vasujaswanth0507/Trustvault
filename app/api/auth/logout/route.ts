@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { extractSessionToken, destroySession, clearSessionCookie, validateSession } from "@/lib/auth/session";
-import { logAuditEvent } from "@/lib/audit/audit-service";
+import { extractSessionToken, destroySession, clearSessionCookie, validateSession } from "../../../../lib/auth/session";
+import { logAuditEvent } from "../../../../lib/audit/audit-service";
 
 export async function POST(req: NextRequest) {
   const token = extractSessionToken(req);

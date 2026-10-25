@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireDocumentOwner, AuthorizationError } from "@/lib/auth/authorization";
-import { prisma } from "@/lib/db/prisma";
+import { requireDocumentOwner, AuthorizationError } from "../../../../../lib/auth/authorization";
+import { prisma } from "../../../../../lib/db/prisma";
 
 interface RouteParams {
   params: { id: string };

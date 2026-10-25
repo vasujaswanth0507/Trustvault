@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireActiveUser, AuthorizationError } from "@/lib/auth/authorization";
-import { validateUploadedFile } from "@/lib/validation/upload";
-import { storage } from "@/lib/storage";
-import { prisma } from "@/lib/db/prisma";
-import { sha256 } from "@/lib/crypto/hash";
-import { logAuditEvent } from "@/lib/audit/audit-service";
+import { requireActiveUser, AuthorizationError } from "../../../lib/auth/authorization";
+import { validateUploadedFile } from "../../../lib/validation/upload";
+import { storage } from "../../../lib/storage";
+import { prisma } from "../../../lib/db/prisma";
+import { sha256 } from "../../../lib/crypto/hash";
+import { logAuditEvent } from "../../../lib/audit/audit-service";
 
 export async function POST(req: NextRequest) {
   try {

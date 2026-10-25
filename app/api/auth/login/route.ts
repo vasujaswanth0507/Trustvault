@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { prisma } from "@/lib/db/prisma";
-import { verifyPassword } from "@/lib/crypto/password";
-import { createServerSession, setSessionCookie } from "@/lib/auth/session";
-import { logAuditEvent } from "@/lib/audit/audit-service";
+import { prisma } from "../../../../lib/db/prisma";
+import { verifyPassword } from "../../../../lib/crypto/password";
+import { createServerSession, setSessionCookie } from "../../../../lib/auth/session";
+import { logAuditEvent } from "../../../../lib/audit/audit-service";
 
 const loginSchema = z.object({
   email: z.string().email().max(255),

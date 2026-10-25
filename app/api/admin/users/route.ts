@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdministrator, AuthorizationError } from "@/lib/auth/authorization";
-import { prisma } from "@/lib/db/prisma";
+import { requireAdministrator, AuthorizationError } from "../../../../lib/auth/authorization";
+import { prisma } from "../../../../lib/db/prisma";
 
 export async function GET(req: NextRequest) {
   try {

@@ -1,8 +1,8 @@
 import { NextRequest } from "next/server";
 import { User, Document, DocumentPermission } from "@prisma/client";
 import { extractSessionToken, validateSession } from "./session";
-import { prisma } from "@/lib/db/prisma";
-import { logAuditEvent } from "@/lib/audit/audit-service";
+import { prisma } from "../db/prisma";
+import { logAuditEvent } from "../audit/audit-service";
 
 export class AuthorizationError extends Error {
   public statusCode: number;

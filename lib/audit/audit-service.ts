@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/db/prisma";
-import { computeAuditEventHash, generateOpaqueId, GENESIS_AUDIT_HASH } from "@/lib/crypto/hash";
+import { prisma } from "../db/prisma";
+import { computeAuditEventHash, generateOpaqueId, GENESIS_AUDIT_HASH } from "../crypto/hash";
 
 export type AuditAction =
   | "LOGIN_SUCCESS"

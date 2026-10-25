@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { requireDocumentOwner, AuthorizationError } from "@/lib/auth/authorization";
-import { prisma } from "@/lib/db/prisma";
-import { logAuditEvent } from "@/lib/audit/audit-service";
+import { requireDocumentOwner, AuthorizationError } from "../../../../../lib/auth/authorization";
+import { prisma } from "../../../../../lib/db/prisma";
+import { logAuditEvent } from "../../../../../lib/audit/audit-service";
 
 const grantPermissionSchema = z.object({
   email: z.string().email(),

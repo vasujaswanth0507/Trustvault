@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { requireActiveUser, AuthorizationError } from "@/lib/auth/authorization";
+import { requireActiveUser, AuthorizationError } from "../../../../lib/auth/authorization";
 
 export async function GET(req: NextRequest) {
   try {
