@@ -4,6 +4,8 @@
 
 TrustVault is an enterprise document security platform designed around zero-trust architecture, server-side authorization, immutable cryptographic hash-chain audit logging, and private file storage.
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/vasujaswanth0507/Trustvault)
+
 ---
 
 ## 1. System Architecture
