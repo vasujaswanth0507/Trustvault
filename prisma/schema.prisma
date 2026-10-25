@@ -1,0 +1,121 @@
+// Prisma Schema for TrustVault
+// Local development & test provider: SQLite (zero-config, zero-dependency)
+// Production provider: PostgreSQL (see schema.postgresql.prisma & docker-compose.yml)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  fullName     String
+  role         String   @default("VIEWER") // "ADMINISTRATOR" | "OWNER" | "VIEWER"
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  sessions            Session[]
+  ownedDocuments      Document[]           @relation("DocumentOwner")
+  documentGrants      DocumentPermission[] @relation("GranteeUser")
+  permissionsGranted DocumentPermission[] @relation("GrantedByUser")
+  auditEvents         AuditEvent[]
+
+  @@index([email])
+  @@index([role])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt    DateTime
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([sessionToken])
+  @@index([userId])
+}
+
+model Document {
+  id               String    @id @default(uuid())
+  title            String
+  originalFilename String
+  description      String?
+  category         String    @default("GENERAL") // "FINANCIAL" | "LEGAL" | "COMPLIANCE" | "TECHNICAL" | "INTERNAL" | "GENERAL"
+  mimeType         String
+  fileSize         Int
+  sha256Hash       String
+  storageKey       String    @unique
+  ownerId          String
+  owner            User      @relation("DocumentOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
+
+  permissions DocumentPermission[]
+
+  @@index([ownerId])
+  @@index([category])
+  @@index([createdAt])
+  @@index([deletedAt])
+}
+
+model DocumentPermission {
+  id              String   @id @default(uuid())
+  documentId      String
+  document        Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  granteeId       String
+  grantee         User     @relation("GranteeUser", fields: [granteeId], references: [id], onDelete: Cascade)
+  permissionLevel String   // "READ" | "EDIT"
+  grantedById     String
+  grantedBy       User     @relation("GrantedByUser", fields: [grantedById], references: [id], onDelete: Restrict)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([documentId, granteeId])
+  @@index([documentId])
+  @@index([granteeId])
+}
+
+model AuditEvent {
+  id                String   @id @default(uuid())
+  sequenceNumber    Int      @unique
+  timestamp         DateTime @default(now())
+  actorId           String?
+  actor             User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action            String   // "LOGIN_SUCCESS" | "LOGIN_FAILURE" | "LOGOUT" | "DOCUMENT_UPLOAD" | "DOCUMENT_VIEW" | "DOCUMENT_DOWNLOAD" | "DOCUMENT_UPDATE" | "DOCUMENT_DELETE" | "PERMISSION_GRANT" | "PERMISSION_REVOKE" | "ACCESS_DENIED" | "USER_STATUS_CHANGE" | "SECURITY_VALIDATION_FAILURE"
+  resourceType      String   // "DOCUMENT" | "PERMISSION" | "USER" | "AUTH" | "SYSTEM"
+  resourceId        String?
+  outcome           String   // "SUCCESS" | "DENIED"
+  correlationId     String?
+  ipAddress         String?
+  userAgent         String?
+  metadata          String?  // JSON string (sanitized)
+  previousEventHash String
+  currentEventHash  String   @unique
+  createdAt         DateTime @default(now())
+
+  @@index([actorId])
+  @@index([action])
+  @@index([resourceType])
+  @@index([resourceId])
+  @@index([timestamp])
+  @@index([outcome])
+}
+
+model AuditChainHead {
+  id                   String   @id @default("singleton")
+  latestSequenceNumber Int      @default(0)
+  latestHash           String   @default("GENESIS_HASH_TRUSTVAULT_V1_0000000000000000000000000000000000000000")
+  updatedAt            DateTime @updatedAt
+}

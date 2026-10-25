@@ -1,0 +1,34 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Next.js build
+/.next/
+/out/
+
+# Storage & Local files
+/storage/vault_data/*
+!/storage/vault_data/.gitkeep
+/prisma/*.db
+/prisma/*.db-journal
+
+# Environment variables
+.env
+.env.local
+.env.production
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.system_generated
+
+# Testing & Coverage
+coverage/
+.vitest/
+
+# OS files
+.DS_Store
+Thumbs.db
