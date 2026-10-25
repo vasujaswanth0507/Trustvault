@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: trustvault-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_secure_vault_password_2026
+      POSTGRES_DB: trustvault
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d trustvault"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trustvault-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "postgresql://postgres:postgres_secure_vault_password_2026@postgres:5432/trustvault?schema=public"
+      SESSION_SECRET: "trustvault-production-session-encryption-key-32-chars-minimum"
+      SESSION_MAX_AGE_SECONDS: 86400
+      COOKIE_SECURE: "true"
+      STORAGE_DRIVER: "local"
+      STORAGE_LOCAL_ROOT: "/app/storage/vault_data"
+      MAX_UPLOAD_SIZE_BYTES: 15728640
+      ALLOWED_EXTENSIONS: ".pdf,.docx,.xlsx,.png,.jpg,.jpeg"
+      NEXT_PUBLIC_APP_URL: "https://vault.organization.com"
+    ports:
+      - "3000:3000"
+    volumes:
+      - vault_storage:/app/storage/vault_data
+
+volumes:
+  postgres_data:
+  vault_storage:
