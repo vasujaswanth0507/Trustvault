@@ -34,7 +34,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
     const cleanFilename = document.originalFilename.replace(/["\r\n\\]/g, "_");
 
     // Return file bytes with strict security headers
-    return new NextResponse(fileBuffer, {
+    return new NextResponse(new Uint8Array(fileBuffer), {
       status: 200,
       headers: {
         "Content-Type": document.mimeType || "application/octet-stream",

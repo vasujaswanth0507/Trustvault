@@ -129,7 +129,7 @@ async function main() {
     memoryCost: 65536,
     timeCost: 3,
     parallelism: 4,
-    algorithm: argon2.Algorithm.Argon2id,
+    algorithm: 2,
   });
 
   // 3. Create Seed Users

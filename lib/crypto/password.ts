@@ -8,7 +8,7 @@ export async function hashPassword(plainText: string): Promise<string> {
     memoryCost: 65536,
     timeCost: 3,
     parallelism: 4,
-    algorithm: argon2.Algorithm.Argon2id,
+    algorithm: 2, // 2 corresponds to Argon2id in @node-rs/argon2
   });
 }
 
