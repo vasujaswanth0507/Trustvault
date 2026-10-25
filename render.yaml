@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: trustvault
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npx prisma db push && node prisma/seed.js && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        value: file:./dev.db
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SESSION_MAX_AGE_SECONDS
+        value: "86400"
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: STORAGE_DRIVER
+        value: local
+      - key: STORAGE_LOCAL_ROOT
+        value: ./storage/vault_data
+      - key: MAX_UPLOAD_SIZE_BYTES
+        value: "15728640"
+      - key: ALLOWED_EXTENSIONS
+        value: ".pdf,.docx,.xlsx,.png,.jpg,.jpeg"
